@@ -3,11 +3,14 @@ package com.solvd.savich.gui.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class SearchPage {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchPage.class);
     WebDriver driver;
 
     @FindBy(css = "#twotabsearchtextbox")
