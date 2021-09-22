@@ -7,32 +7,29 @@ import org.apache.commons.collections.CollectionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class WebTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebTest.class);
+    WebDriver driver;
+
+    @BeforeMethod
+    public void initDriver() {
+        driver = new RemoteWebDriver(DesiredCapabilities.chrome());
+    }
 
     @Test
     public void testSearchProducts() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        WebDriver driver = null;
-        try {
-            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeOptions);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
         SearchPage page = new SearchPage(driver);
         page.home();
         List<WebElement> goods = page.find("Mac");
@@ -42,20 +39,11 @@ public class WebTest {
         for (String n : namesOfTitle) {
             LOGGER.info(n);
         }
-
-        driver.quit();
     }
 
     @Test
     public void testAddToCart() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        WebDriver driver = null;
-        try {
-            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeOptions);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         NavigationMenu navigationMenu = new NavigationMenu(driver);
         int countCart1 = navigationMenu.countCart();
         navigationMenu.selectProduct();
@@ -67,9 +55,10 @@ public class WebTest {
         WebElement item = searchItem.getListItems().get(randomNum);
         item.click();
         navigationMenu.addToCart();
-        navigationMenu.home();
-        // navigationMenu.closeWindow();
-        //  navigationMenu.backToHomePage();
+        if (navigationMenu.isWindowPresent()) {
+            navigationMenu.closeWindow();
+        }
+        navigationMenu.backToHomePage();
         int countCart2 = navigationMenu.countCart();
         Assert.assertTrue(countCart2 > countCart1, "The product has not been added to the cart");
 
@@ -80,6 +69,10 @@ public class WebTest {
         itemOfCart.click();
         int countCart4 = navigationMenu.countCart();
         Assert.assertTrue(countCart4 < countCart3, "The product has not been deleted from the cart");
+    }
+
+    @AfterMethod
+    public void closeDriver() {
         driver.quit();
     }
 }

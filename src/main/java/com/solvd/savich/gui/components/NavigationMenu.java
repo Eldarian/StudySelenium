@@ -1,5 +1,6 @@
 package com.solvd.savich.gui.components;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -63,8 +64,9 @@ public class NavigationMenu {
                 .until(ExpectedConditions.visibilityOf(closeWindow)));
         element.click();
     }
-    //   Boolean isPresent = driver.findElements(By.cssSelector("a#attach-close_sideSheet-link.a-link-normal.close-button")).size() > 0;
-
+    public boolean isWindowPresent () {
+        return driver.findElements(By.cssSelector("a#attach-close_sideSheet-link.a-link-normal.close-button")).size() > 0;
+    }
     public void home() {
         driver.get("https://www.amazon.com/");
     }

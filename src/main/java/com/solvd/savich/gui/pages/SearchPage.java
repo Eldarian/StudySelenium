@@ -4,6 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +41,6 @@ public class SearchPage {
         driver.get("https://www.amazon.com/");
     }
 
-
     public List<WebElement> find(String query) {
         fieldSearch.sendKeys(query);
         btnSearch.click();
@@ -60,7 +62,8 @@ public class SearchPage {
 //    return wait.until(ExpectedConditions.stalenessOf(itemsFromComputersSearch));
 //    }
 
-    //    public List<WebElement> getListItems3() {
+//        public List<WebElement> getListItems3() {
+//            FluentWait<List<WebElement>> wait = new FluentWait<>(driver, 3);
 //           return wait.until(ExpectedConditions.stalenessOf(itemsFromComputersSearch));
 //
 //    }
