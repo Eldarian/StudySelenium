@@ -62,6 +62,7 @@ public class WebTest {
         SearchPage searchItem = new SearchPage(driver);
         List<WebElement> goods = searchItem.getListItems();
         Assert.assertFalse(CollectionUtils.isEmpty(goods), "Goods not found!");
+
         int randomNum = (int) (Math.random() * searchItem.getListItems().size());
         WebElement item = searchItem.getListItems().get(randomNum);
         item.click();
@@ -76,7 +77,6 @@ public class WebTest {
         Assert.assertEquals(cart.getPageHeader(), "Shopping Cart");
         int countCart3 = navigationMenu.countCart();
         WebElement itemOfCart = cart.listOfCartItems().get(0).findElement(By.cssSelector("[value='Delete']"));
-        ;
         itemOfCart.click();
         int countCart4 = navigationMenu.countCart();
         Assert.assertTrue(countCart4 < countCart3, "The product has not been deleted from the cart");
