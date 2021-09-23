@@ -21,8 +21,11 @@ public class CartPage {
 
     public CartPage(WebDriver driver) {
         this.driver = driver;
-        driver.get("https://www.amazon.com/gp/cart/view.html?ref_=nav_cart");
         PageFactory.initElements(driver, this);
+    }
+
+    public void cartHome() {
+        driver.get("https://www.amazon.com/gp/cart/view.html?ref_=nav_cart");
     }
 
     public List<WebElement> listOfCartItems() {

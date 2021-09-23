@@ -4,9 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +20,7 @@ public class SearchPage {
     @FindBy(css = "#nav-search-submit-button")
     private WebElement btnSearch;
 
-    @FindBy(css = "span[class*=a-size-medium]")
+    @FindBy(css = "span.a-size-medium.a-color-base.a-text-normal")
     private List<WebElement> items;
 
     @FindBy(css = "div.a-section.a-spacing-medium") //div[class*=s-card-container]>div
@@ -32,13 +29,12 @@ public class SearchPage {
     @FindBy(css = "div[class*=s-card-container]>div")
     private WebElement itemsLink;
 
+    @FindBy(css = "[name='submit.buy-now']")
+    private WebElement btnBuyNow;
+
     public SearchPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-    }
-
-    public void home() {
-        driver.get("https://www.amazon.com/");
     }
 
     public List<WebElement> find(String query) {
@@ -58,6 +54,15 @@ public class SearchPage {
     public List<WebElement> getListItems() {
         return itemsFromComputersSearch;
     }
+
+    public void tapItemLink() {
+        itemsLink.click();
+    }
+    public void tapBtnBuyNow() {
+        btnBuyNow.click();
+    }
+
+}
 //    public List<WebElement> getListItems() {
 //    return wait.until(ExpectedConditions.stalenessOf(itemsFromComputersSearch));
 //    }
@@ -67,8 +72,3 @@ public class SearchPage {
 //           return wait.until(ExpectedConditions.stalenessOf(itemsFromComputersSearch));
 //
 //    }
-    public void tapItemLink() {
-        itemsLink.click();
-    }
-
-}

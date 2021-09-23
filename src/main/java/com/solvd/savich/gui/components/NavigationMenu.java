@@ -14,6 +14,7 @@ import java.time.Duration;
 public class NavigationMenu {
 
     WebDriver driver;
+    WebDriverWait wait;
 
     @FindBy(css = "#nav-hamburger-menu")
     private WebElement btnAll;
@@ -41,13 +42,16 @@ public class NavigationMenu {
 
     public NavigationMenu(WebDriver driver) {
         this.driver = driver;
-        driver.get("https://www.amazon.com/");
         PageFactory.initElements(driver, this);
     }
 
     public void selectProduct() {
         btnAll.click();
+        wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Computers')]")));
         btnComputers.click();
+        wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Computer Components')]")));
         btnComputersComponents.click();
     }
 
@@ -64,15 +68,9 @@ public class NavigationMenu {
                 .until(ExpectedConditions.visibilityOf(closeWindow)));
         element.click();
     }
-    public boolean isWindowPresent () {
-        return driver.findElements(By.cssSelector("a#attach-close_sideSheet-link.a-link-normal.close-button")).size() > 0;
-    }
-    public void home() {
-        driver.get("https://www.amazon.com/");
-    }
 
-    public boolean isButtonPresent() {
-        return closeWindow != null;
+    public boolean isWindowPresent() {
+        return driver.findElements(By.cssSelector("a#attach-close_sideSheet-link.a-link-normal.close-button")).size() > 0;
     }
 
     public void backToHomePage() {
