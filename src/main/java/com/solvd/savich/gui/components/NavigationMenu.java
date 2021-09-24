@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class NavigationMenu {
@@ -39,6 +40,21 @@ public class NavigationMenu {
 
     @FindBy(css = "a#nav-cart")
     private WebElement btnCart;
+
+    @FindBy(css = "#nav-global-location-popover-link")
+    private WebElement btnSelectAdress;
+
+    @FindBy(css = ".a-button-dropdown.a-button.a-button-span12")
+    private WebElement btnSelectList;
+
+    @FindBy(css = "a[href='javascript:void(0)']")
+    private List<WebElement> countries;
+
+    @FindBy(css = "#a-autoid-2-announce")
+    private WebElement btnDone;
+
+    @FindBy(css = "#nav-global-location-data-modal-action")
+    private WebElement titleOfDelivery;
 
     public NavigationMenu(WebDriver driver) {
         this.driver = driver;
@@ -81,5 +97,31 @@ public class NavigationMenu {
         btnCart.click();
     }
 
-}
+    public void getSelectAdress(){
+     btnSelectAdress.click();
+     btnSelectList.click();
+    }
 
+    public List<WebElement> getListCountries(){
+        return countries;
+    }
+    public String getTitleCurrentCountry(){
+        return btnSelectAdress.getText();
+    }
+
+    public void btnDone() {
+        btnDone.click();
+    }
+
+    public String getTitleOfCountryToDelivery(){
+        return titleOfDelivery.getText();
+    }
+
+    public String changeCountry(){
+        int countryIndex = (int) (Math.random() * 246);
+        WebElement currentCountry = countries.get(countryIndex);
+        String nameCountry = currentCountry.getText();
+        currentCountry.click();
+        return nameCountry;
+    }
+}
