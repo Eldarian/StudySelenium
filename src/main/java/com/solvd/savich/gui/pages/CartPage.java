@@ -1,5 +1,7 @@
 package com.solvd.savich.gui.pages;
 
+import com.solvd.savich.gui.Resource;
+import com.solvd.savich.gui.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,7 +27,7 @@ public class CartPage {
     }
 
     public void cartHome() {
-        driver.get("https://www.amazon.com/gp/cart/view.html?ref_=nav_cart");
+        driver.get(Util.getPropertiesValue(Resource.CONFIG,"url_card"));
     }
 
     public List<WebElement> listOfCartItems() {
