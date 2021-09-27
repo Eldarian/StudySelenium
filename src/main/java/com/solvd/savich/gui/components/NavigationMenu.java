@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class NavigationMenu {
@@ -50,11 +51,14 @@ public class NavigationMenu {
     @FindBy(css = "a[href='javascript:void(0)']")
     private List<WebElement> countries;
 
-    @FindBy(css = "#a-autoid-2-announce")
+    @FindBy(css = "[name='glowDoneButton']")
     private WebElement btnDone;
 
-    @FindBy(css = "#nav-global-location-data-modal-action")
+    @FindBy(css = ".nav-line-2.nav-progressive-content")
     private WebElement titleOfDelivery;
+
+    @FindBy(css = "[data-csa-c-slot-id='nav_cs_0']")
+    private WebElement btnTodayDeals;
 
     public NavigationMenu(WebDriver driver) {
         this.driver = driver;
@@ -97,15 +101,16 @@ public class NavigationMenu {
         btnCart.click();
     }
 
-    public void getSelectAdress(){
-     btnSelectAdress.click();
-     btnSelectList.click();
+    public void getSelectAdress() {
+        btnSelectAdress.click();
+        btnSelectList.click();
     }
 
-    public List<WebElement> getListCountries(){
+    public List<WebElement> getListCountries() {
         return countries;
     }
-    public String getTitleCurrentCountry(){
+
+    public String getTitleCurrentCountry() {
         return btnSelectAdress.getText();
     }
 
@@ -113,15 +118,26 @@ public class NavigationMenu {
         btnDone.click();
     }
 
-    public String getTitleOfCountryToDelivery(){
+    public String getTitleOfCountryToDelivery() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return titleOfDelivery.getText();
     }
 
-    public String changeCountry(){
+    public String changeCountry() {
         int countryIndex = (int) (Math.random() * 246);
         WebElement currentCountry = countries.get(countryIndex);
         String nameCountry = currentCountry.getText();
         currentCountry.click();
         return nameCountry;
     }
+
+    public void getTodayDeals(){
+        btnTodayDeals.click();
+    }
+
+
 }

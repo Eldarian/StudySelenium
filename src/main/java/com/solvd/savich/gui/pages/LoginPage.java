@@ -1,11 +1,13 @@
 package com.solvd.savich.gui.pages;
 
+import com.solvd.savich.gui.Resource;
 import com.solvd.savich.gui.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.concurrent.TimeUnit;
 
 
 public class LoginPage {
@@ -37,21 +39,25 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    public String getTextLogin(){
+    public String getTextLogin() {
         return textLogin.getText();
     }
-    public String getTextLoginUser(){
+
+    public String getTextLoginUser() {
         return textLoginUser.getText();
     }
 
-    public void authorization(){
-        emailField.sendKeys(Util.getPropertiesValue("login"));
+    public void authorization() {
+        emailField.sendKeys(Util.getPropertiesValue(Resource.TESTDATA, "login"));
         btnContinue.click();
-        passwordField.sendKeys(Util.getPropertiesValue("password"));
+        passwordField.sendKeys(Util.getPropertiesValue(Resource.TESTDATA, "password"));
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         btnSignIn.click();
     }
-
-
 
 
 }

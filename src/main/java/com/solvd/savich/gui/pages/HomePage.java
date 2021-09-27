@@ -1,5 +1,7 @@
 package com.solvd.savich.gui.pages;
 
+import com.solvd.savich.gui.Resource;
+import com.solvd.savich.gui.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -13,7 +15,7 @@ public class HomePage {
     }
 
     public void open() {
-        driver.get("https://www.amazon.com/");
+        driver.get(Util.getPropertiesValue(Resource.CONFIG, "url"));
     }
 
 }

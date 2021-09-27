@@ -16,6 +16,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -78,32 +80,31 @@ public class WebTest {
         itemOfCart.click();
         Assert.assertTrue(navigationMenu.countCart() < countCart2, "The product has not been deleted from the cart");
     }
+
     @Test
-    public void testBuyNow(){
+    public void testBuyNow() {
         SearchPage searchPage = new SearchPage(driver);
         List<WebElement> goods = searchPage.find("MacBook");
         Assert.assertFalse(CollectionUtils.isEmpty(goods), "Goods not found!");
         goods.get(0).click();
         searchPage.tapBtnBuyNow();
         LoginPage loginPage = new LoginPage(driver);
-        Assert.assertEquals(loginPage.getTextLogin(),"Sign-In","User is not on page authorisation");
+        Assert.assertEquals(loginPage.getTextLogin(), "Sign-In", "User is not on page authorisation");
 
         loginPage.authorization();
         BuyNowPage buyNowPage = new BuyNowPage(driver);
         Assert.assertEquals(buyNowPage.getSelectAddressText(), "Select a shipping address", "Page for choosing a payment and delivery method is not opened");
-
     }
+
     @Test
-    public void testChangeCountry(){
-    NavigationMenu navigationMenu = new NavigationMenu(driver);
-    navigationMenu.getSelectAdress();
-    String getTitleOfSelectedCountry = navigationMenu.changeCountry();
-    Assert.assertEquals(navigationMenu.getTitleCurrentCountry(),
-                        getTitleOfSelectedCountry,"Don't change current country");
-    navigationMenu.btnDone();
-    Assert.assertEquals(navigationMenu.getTitleOfCountryToDelivery(),getTitleOfSelectedCountry,"Don't change country on main page");
-
-
+    public void testChangeCountry() {
+        NavigationMenu navigationMenu = new NavigationMenu(driver);
+        navigationMenu.getSelectAdress();
+        String getTitleOfSelectedCountry = navigationMenu.changeCountry();
+        navigationMenu.getTitleCurrentCountry();
+        navigationMenu.btnDone();
+        Assert.assertEquals(navigationMenu.getTitleOfCountryToDelivery(),
+                getTitleOfSelectedCountry, "Don't change country on main page");
     }
 
     @AfterClass
