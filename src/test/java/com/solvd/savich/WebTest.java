@@ -11,13 +11,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,19 +24,31 @@ public class WebTest {
 
     @BeforeClass
     public void setup() {
-        driver = new RemoteWebDriver(DesiredCapabilities.chrome());
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
     }
 
     @BeforeMethod
     public void openAmazon() {
+        driver = new RemoteWebDriver(DesiredCapabilities.chrome());
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        long id = Thread.currentThread().getId();
+        System.out.println("Before test-method. Thread id is: " + id);
         HomePage homePage = new HomePage(driver);
         homePage.open();
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.amazon.com/");
     }
+    @AfterMethod
+    public void afterMethod(){
+        long id = Thread.currentThread().getId();
+        System.out.println("After test-method. Thread id is: " + id);
+        driver.quit();
+    }
 
     @Test
     public void testSearchProducts() {
+        long id = Thread.currentThread().getId();
+        System.out.println("Simple test-method One. Thread id is: " + id);
         SearchPage searchPage = new SearchPage(driver);
         List<WebElement> goods = searchPage.find("Mac");
         Assert.assertFalse(CollectionUtils.isEmpty(goods), "Goods not found!");
@@ -54,6 +61,8 @@ public class WebTest {
 
     @Test
     public void testAddToCart() {
+        long id = Thread.currentThread().getId();
+        System.out.println("Simple test-method Two. Thread id is: " + id);
         NavigationMenu navigationMenu = new NavigationMenu(driver);
         int countCart1 = navigationMenu.countCart();
         navigationMenu.selectProduct();
@@ -83,6 +92,8 @@ public class WebTest {
 
     @Test
     public void testBuyNow() {
+        long id = Thread.currentThread().getId();
+        System.out.println("Simple test-method Third. Thread id is: " + id);
         SearchPage searchPage = new SearchPage(driver);
         List<WebElement> goods = searchPage.find("MacBook");
         Assert.assertFalse(CollectionUtils.isEmpty(goods), "Goods not found!");
@@ -98,6 +109,8 @@ public class WebTest {
 
     @Test
     public void testChangeCountry() {
+        long id = Thread.currentThread().getId();
+        System.out.println("Simple test-method Fourth. Thread id is: " + id);
         NavigationMenu navigationMenu = new NavigationMenu(driver);
         navigationMenu.getSelectAdress();
         String getTitleOfSelectedCountry = navigationMenu.changeCountry();
@@ -109,6 +122,6 @@ public class WebTest {
 
     @AfterClass
     public void closeDriver() {
-        driver.quit();
+
     }
 }
