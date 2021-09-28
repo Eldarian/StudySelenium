@@ -1,17 +1,18 @@
 package com.solvd.savich;
 
+import com.solvd.savich.gui.DriverFactory;
 import com.solvd.savich.gui.components.NavigationMenu;
 import com.solvd.savich.gui.pages.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,17 +20,10 @@ import java.util.concurrent.TimeUnit;
 
 public class WebTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebTest.class);
-    WebDriver driver;
-
-
-    @BeforeClass
-    public void setup() {
-
-    }
 
     @BeforeMethod
     public void openAmazon() {
-        driver = new RemoteWebDriver(DesiredCapabilities.chrome());
+        WebDriver driver = DriverFactory.getInstance().getDriver();
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         long id = Thread.currentThread().getId();
@@ -38,15 +32,17 @@ public class WebTest {
         homePage.open();
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.amazon.com/");
     }
+
     @AfterMethod
-    public void afterMethod(){
+    public void afterMethod() {
         long id = Thread.currentThread().getId();
         System.out.println("After test-method. Thread id is: " + id);
-        driver.quit();
+        DriverFactory.getInstance().removeDriver();
     }
 
     @Test
     public void testSearchProducts() {
+        WebDriver driver = DriverFactory.getInstance().getDriver();
         long id = Thread.currentThread().getId();
         System.out.println("Simple test-method One. Thread id is: " + id);
         SearchPage searchPage = new SearchPage(driver);
@@ -61,6 +57,7 @@ public class WebTest {
 
     @Test
     public void testAddToCart() {
+        WebDriver driver = DriverFactory.getInstance().getDriver();
         long id = Thread.currentThread().getId();
         System.out.println("Simple test-method Two. Thread id is: " + id);
         NavigationMenu navigationMenu = new NavigationMenu(driver);
@@ -92,6 +89,7 @@ public class WebTest {
 
     @Test
     public void testBuyNow() {
+        WebDriver driver = DriverFactory.getInstance().getDriver();
         long id = Thread.currentThread().getId();
         System.out.println("Simple test-method Third. Thread id is: " + id);
         SearchPage searchPage = new SearchPage(driver);
@@ -109,6 +107,7 @@ public class WebTest {
 
     @Test
     public void testChangeCountry() {
+        WebDriver driver = DriverFactory.getInstance().getDriver();
         long id = Thread.currentThread().getId();
         System.out.println("Simple test-method Fourth. Thread id is: " + id);
         NavigationMenu navigationMenu = new NavigationMenu(driver);
@@ -120,8 +119,4 @@ public class WebTest {
                 getTitleOfSelectedCountry, "Don't change country on main page");
     }
 
-    @AfterClass
-    public void closeDriver() {
-
-    }
 }

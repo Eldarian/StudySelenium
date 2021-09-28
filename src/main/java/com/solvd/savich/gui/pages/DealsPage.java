@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class DealsPage {
@@ -37,20 +36,20 @@ public class DealsPage {
         PageFactory.initElements(driver, this);
     }
 
-    public String isPageOpened(){
+    public String isPageOpened() {
         return titleOfDealPage.getText();
     }
 
-    public void getSortBy(){
+    public void getSortBy() {
         btnSortBy.click();
         btnSortByDiscountLowToHigh.click();
     }
 
-    public void btnDealOfTheDay(){
+    public void btnDealOfTheDay() {
         btnDealOfTheDay.click();
     }
 
-    public void selectFilterElectronics(){
+    public void selectFilterElectronics() {
         btnFilterElectronics.click();
     }
 

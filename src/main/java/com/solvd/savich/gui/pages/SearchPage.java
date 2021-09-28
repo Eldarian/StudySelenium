@@ -58,17 +58,9 @@ public class SearchPage {
     public void tapItemLink() {
         itemsLink.click();
     }
+
     public void tapBtnBuyNow() {
         btnBuyNow.click();
     }
 
 }
-//    public List<WebElement> getListItems() {
-//    return wait.until(ExpectedConditions.stalenessOf(itemsFromComputersSearch));
-//    }
-
-//        public List<WebElement> getListItems3() {
-//            FluentWait<List<WebElement>> wait = new FluentWait<>(driver, 3);
-//           return wait.until(ExpectedConditions.stalenessOf(itemsFromComputersSearch));
-//
-//    }
